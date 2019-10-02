@@ -33,6 +33,7 @@
             })
         })
         $(".checkbtn").click(function(){
+            $(".result").text("");
             $.post("check",{keyWord:$(".keyWord").val()},function(data){
                 $(".result").text(data);
             })

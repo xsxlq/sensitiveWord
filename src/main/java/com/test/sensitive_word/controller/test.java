@@ -1,5 +1,7 @@
 package com.test.sensitive_word.controller;
 
+import com.sun.tools.javac.comp.Check;
+import com.test.sensitive_word.pojo.CheckInfo;
 import com.test.sensitive_word.pojo.SysSensitiveWord;
 import com.test.sensitive_word.service.SysSensitiveWordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,24 +102,29 @@ public class test {
     @PostMapping("check")
     @ResponseBody
     public String checkIt(String keyWord) {
+        CheckInfo checkInfo = new CheckInfo();
         if(sensitiveWordsMap == null){
-            return "请先初始化词汇！";
+            checkInfo.setSensitive("请先初始化词汇！");
+            return checkInfo.toString();
         }
         if(keyWord == null){
+            checkInfo.setSensitive("传值错误");
             System.out.println(keyWord);
-            return "请输入词汇";
+            return checkInfo.toString();
         }
-        return checkWords(keyWord.trim());
+        return checkWords(keyWord.trim()).toString();
     }
 
-    public String checkWords(String key) {
+    public CheckInfo checkWords(String key) {
+        CheckInfo checkInfo = new CheckInfo();
         if (key == null || "".equals(key) == true) {
-            return "传值错误";
+            checkInfo.setSensitive("传值错误");
+            return checkInfo;
         }
+        checkInfo.setKey(key);
         int endIndex = 0;
         long startTime = System.currentTimeMillis();
         long endTime = startTime;
-        StringBuffer info = new StringBuffer("key:"+key);
         Map nowMap = sensitiveWordsMap;
         for (int i = 0; i < key.length(); i++) {
             char k = key.charAt(i);
@@ -126,22 +133,24 @@ public class test {
 
             if (newMap == null) {
                 startTime = System.currentTimeMillis();
-                info.append(";耗时"+(endTime - startTime)+"ms");
-                return info.toString();
+                checkInfo.setTime((endTime - startTime)+"ms");
+                checkInfo.setSensitive("false");
+                return checkInfo;
             } else {
                 nowMap = (Map) newMap;
                 if (nowMap.get("isEnd").equals("1")) {
                     endIndex = i;
                     startTime = System.currentTimeMillis();
-                    info.append(";耗时"+(endTime - startTime)+"ms");
-                    info.append(";"+key.substring(0,i+1));
-                    return info.toString();
+                    checkInfo.setTime((endTime - startTime)+"ms");
+                    checkInfo.setSensitive("true");
+                    return checkInfo;
                 }
             }
         }
         startTime = System.currentTimeMillis();
-        info.append(";耗时"+(endTime - startTime)+"ms");
-        return info.toString();
+        checkInfo.setTime((endTime - startTime)+"ms");
+        checkInfo.setSensitive("false");
+        return checkInfo;
     }
 
 
@@ -158,7 +167,7 @@ public class test {
 
 
             long startTime = System.currentTimeMillis();
-            String out = checkWords(key);
+            CheckInfo out = checkWords(key);
             long endTime = System.currentTimeMillis(); // 获取结束时间
             long dfaT = endTime - startTime;
             System.out.println("DFA运行时间： " + dfaT + "ms : "+out);
