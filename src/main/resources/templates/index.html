@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/jquery_3.3.1.js"></script>
+    <link rel="stylesheet" href="../static/bootstrap_4.2.1.css">
+</head>
+<body>
+<table class="table table-striped">
+    <tr>
+        <td><button class="initbtn btn btn-info">初始化敏感词</button></td>
+        <td class="initTip">未初始化词汇数据</td>
+    </tr>
+    <tr>
+        <td>
+            <input class="keyWord form-control">
+        </td>
+        <td>
+            <button class="checkbtn btn btn-info">检查</button>
+        </td>
+    </tr>
+    <tr>
+        <td class="result"></td>
+    </tr>
+</table>
+</body>
+<script>
+    $(function(){
+        $(".initbtn").click(function(){
+            $.post("init",function(data){
+                $(".initTip").text(data);
+            })
+        })
+        $(".checkbtn").click(function(){
+            $.post("check",{keyWord:$(".keyWord").val()},function(data){
+                $(".result").text(data);
+            })
+        })
+    })
+</script>
+</html>

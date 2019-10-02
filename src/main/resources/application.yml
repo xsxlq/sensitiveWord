@@ -1,0 +1,52 @@
+#配置服务器
+server:
+  port: 8081
+#配置spring
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      #spring.servlet.multipart.max-file-size限制单个文件的最大值
+      #spring.servlet.multipart.max-request-size限制上传的多个文件的总大小
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+  datasource:
+    name: xsxlq
+    url: jdbc:mysql://127.0.0.1:3306/key_words
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+#配置mybatis
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.test.sensitive_word.pojo
+
+#日志
+logging:
+# logging.pattern.console=%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n
+#  file:   # 日志文件,绝对路径或相对路径
+#  path:   # 保存日志文件目录路径
+#  config: # 日志配置文件,Spring Boot默认使用classpath路径下的日志配置文件,如:logback.xml
+  path:
+  level:
+    com.xsxlq: info
+
+
+#  path: concretepage/logs
+    #  pattern:
+#    file: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
+  #   console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'

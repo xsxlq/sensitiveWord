@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.sensitive_word.dao.SysSensitiveWordMapper">
+  <resultMap id="BaseResultMap" type="com.test.sensitive_word.pojo.SysSensitiveWord">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="word_name" jdbcType="VARCHAR" property="wordName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="istatus" jdbcType="CHAR" property="istatus" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, word_name, update_time, istatus, del_flag
+  </sql>
+
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    word_name
+    from sys_sensitive_word
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_sensitive_word
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_sensitive_word
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.test.sensitive_word.pojo.SysSensitiveWord">
+    insert into sys_sensitive_word (id, word_name, update_time, 
+      istatus, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{wordName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{istatus,jdbcType=CHAR}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.sensitive_word.pojo.SysSensitiveWord">
+    insert into sys_sensitive_word
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="wordName != null">
+        word_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="istatus != null">
+        istatus,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="wordName != null">
+        #{wordName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="istatus != null">
+        #{istatus,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.sensitive_word.pojo.SysSensitiveWord">
+    update sys_sensitive_word
+    <set>
+      <if test="wordName != null">
+        word_name = #{wordName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="istatus != null">
+        istatus = #{istatus,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.sensitive_word.pojo.SysSensitiveWord">
+    update sys_sensitive_word
+    set word_name = #{wordName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      istatus = #{istatus,jdbcType=CHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
