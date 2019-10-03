@@ -4,26 +4,56 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="../static/jquery_3.3.1.js"></script>
-    <link rel="stylesheet" href="../static/bootstrap_4.2.1.css">
+    <link rel="stylesheet" href="../static/bootstrap_3.3.7.min.css">
+    <style>
+        .panel .table tr th ,.panel .table tr td{
+            line-height: 2.428571;!important;
+        }
+    </style>
 </head>
 <body>
-<table class="table table-striped">
-    <tr>
-        <td><button class="initbtn btn btn-info">初始化敏感词</button></td>
-        <td class="initTip">未初始化词汇数据</td>
-    </tr>
-    <tr>
-        <td>
-            <input class="keyWord form-control">
-        </td>
-        <td>
-            <button class="checkbtn btn btn-info">检查</button>
-        </td>
-    </tr>
-    <tr>
-        <td class="result"></td>
-    </tr>
-</table>
+<div class="panel panel-info" style="width: 85%;margin: auto">
+    <div class="panel-heading">敏感词汇检测（DFA）</div>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th style="width: 100px">信息</th>
+            <th style="width: 500px"></th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td class="initTip" colspan="2">未初始化词汇数据</td>
+            <td><button class="initbtn btn btn-info">初始化敏感词</button></td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td colspan="2"><input class="keyWord form-control" placeholder="请输入检测词"></td>
+            <td><button class="checkbtn btn btn-info">检查</button></td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td style="width: 100px">key:</td>
+            <td class="resultKey" colspan="2"></td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td style="width: 100px;">时间(ms):</td>
+            <td class="resultTime" colspan="2"></td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td style="width: 100px;">是否敏感词:</td>
+            <td class="resultBoolean" colspan="2"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 <script>
     $(function(){
@@ -35,7 +65,11 @@
         $(".checkbtn").click(function(){
             $(".result").text("");
             $.post("check",{keyWord:$(".keyWord").val()},function(data){
-                $(".result").text(data);
+                console.log(data);
+                console.log(data.key);
+                $(".resultKey").text(data.key);
+                $(".resultTime").text(data.time);
+                $(".resultBoolean").text(data.sensitive);
             })
         })
     })
