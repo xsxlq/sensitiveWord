@@ -8,4 +8,6 @@ import java.util.List;
 @Service("SysSensitiveWordService")
 public interface SysSensitiveWordService {
     List<SysSensitiveWord> selectAll();
+
+    int insertSelective(SysSensitiveWord record);
 }

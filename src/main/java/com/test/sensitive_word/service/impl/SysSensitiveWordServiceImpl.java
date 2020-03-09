@@ -17,4 +17,9 @@ public class SysSensitiveWordServiceImpl implements SysSensitiveWordService {
     public List<SysSensitiveWord> selectAll() {
         return sysSensitiveWordMapper.selectAll();
     }
+
+    @Override
+    public int insertSelective(SysSensitiveWord record) {
+        return sysSensitiveWordMapper.insertSelective(record);
+    }
 }
